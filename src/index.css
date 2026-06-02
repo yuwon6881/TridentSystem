@@ -1,0 +1,5 @@
+@import "tailwindcss";
+
+.customFont {
+    font-family: "Hanken Grotesk", sans-serif;
+}
