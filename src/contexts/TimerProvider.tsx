@@ -26,22 +26,32 @@ export const TimerProvider = ({children}: { children: React.ReactNode }) => {
 
     useEffect(() => {
         let interval: number | undefined = undefined;
+
         if (isPlaying) {
+            const storedEndTime = localStorage.getItem('timer_endTime');
+            const endTime = storedEndTime
+                ? parseInt(storedEndTime)
+                : Date.now() + remainingTimeInSeconds * 1000;
+
             interval = setInterval(() => {
-                setRemainingTimeInSeconds(prevTime => {
-                    if (prevTime > 1) {
-                        return prevTime - 1
-                    }
-                    notificationSound()
-                    const nextIsBreak = !isBreak
-                    const nextTime = initiateTimer(nextIsBreak)
-                    setIsBreak(nextIsBreak)
-                    return nextTime
-                })
-            }, 1000)
+                const now = Date.now();
+                const timeLeft = Math.max(0, Math.round((endTime - now) / 1000));
+
+                if (timeLeft > 0) {
+                    setRemainingTimeInSeconds(timeLeft);
+                } else {
+                    clearInterval(interval);
+                    notificationSound();
+                    const nextIsBreak = !isBreak;
+                    const nextTime = initiateTimer(nextIsBreak);
+                    setIsBreak(nextIsBreak);
+                    setRemainingTimeInSeconds(nextTime);
+                }
+            }, 1000);
         }
-        return () => clearInterval(interval)
-    }, [isPlaying, isBreak])
+
+        return () => clearInterval(interval);
+    }, [isPlaying, isBreak]);
 
     useEffect(() => {
         localStorage.setItem('timer_isBreak', isBreak.toString())

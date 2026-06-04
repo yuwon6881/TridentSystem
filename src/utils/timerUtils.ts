@@ -1,7 +1,7 @@
 import notification from "../assets/notification.mp3"
 
 export function initiateTimer(isBreak: boolean) {
-    const minutes = isBreak ? 20 : 90
+    const minutes = isBreak ? 5 : 25
     return minutes * 60
 }
 
