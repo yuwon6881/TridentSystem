@@ -9,6 +9,13 @@ createRoot(document.getElementById('root')!).render(
     <StrictMode>
         <ConfigProvider theme={{
             algorithm: theme.darkAlgorithm,
+            token: {
+                colorPrimary: '#06b6d4',
+                colorBgContainer: '#0b0f19',
+                colorBgBase: '#030712',
+                borderRadius: 12,
+                fontFamily: '"Hanken Grotesk", sans-serif',
+            },
         }}>
             <BrowserRouter>
                 <App/>
